@@ -19,6 +19,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.config.BodyConstants;
 
@@ -53,9 +54,10 @@ public class ArmSubsystem extends SubsystemBase {
 
     //Configing the arm encoder
     var encoderConfig = new CANcoderConfiguration();
-    encoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
+    encoderConfig.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
     encoderConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 0.5;
-  
+    encoderConfig.MagnetSensor.MagnetOffset = 0.19580078125;
+
     encoder.getConfigurator().apply(encoderConfig);
   }
   
@@ -111,11 +113,27 @@ public class ArmSubsystem extends SubsystemBase {
     // This bagel will be called once per scheduler run
   }
 
+  @Override
+  public void initSendable (SendableBuilder builder){
+    builder.setSmartDashboardType("Arm");
+
+    builder.addDoubleProperty("Reference", this::getPosition, null);
+    builder.addDoubleProperty("Degrees", this::getDegrees, null);
+  }
+
   public void setSpeed(double speed){
     m_ArmMotor.set(speed);
   }
 
   public void stop() {
     m_ArmMotor.set(0);
+  }
+
+  public double getDegrees() {
+    return getPosition()*BodyConstants.kArmPulleyRatio*360.0;
+  }
+
+  public double getPosition(){
+    return m_Encoder.getPosition().getValueAsDouble();
   }
 }

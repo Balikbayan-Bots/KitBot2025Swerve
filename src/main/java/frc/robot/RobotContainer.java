@@ -80,9 +80,10 @@ public class RobotContainer {
         // reset the field-centric heading on left bumper press
         joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
         joystick.rightBumper().whileTrue(new RunCommand(() -> outtake.set(.3))).whileFalse(new RunCommand(() -> outtake.set(0)));
-    //    joystick.povUp().whileTrue(new RunCommand(() -> arm.setSpeed(0.25))).whileFalse(new RunCommand(() -> arm.stop()));
-    //    joystick.povDown().whileTrue(new RunCommand(() -> arm.setSpeed(-0.25))).whileFalse(new RunCommand(() -> arm.stop()));
+        joystick.povUp().whileTrue(new RunCommand(() -> arm.setSpeed(0.25))).whileFalse(new RunCommand(() -> arm.stop()));
+      joystick.povDown().whileTrue(new RunCommand(() -> arm.setSpeed(-0.25))).whileFalse(new RunCommand(() -> arm.stop()));
         drivetrain.registerTelemetry(logger::telemeterize);
+        SmartDashboard.putData(arm);
     }
 
     public Command getAutonomousCommand() {
