@@ -114,6 +114,7 @@ public class ArmSubsystem extends SubsystemBase {
   }
 
   public void setToMaxPos() {
+    //try values 0.15 (5 repating), 0.46 (6 repeating), 12.6
     m_ArmMotor.setControl(m_positionOut.withPosition(0.16));
   }
 
