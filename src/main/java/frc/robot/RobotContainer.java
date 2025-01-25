@@ -44,7 +44,7 @@ public class RobotContainer {
 
     public final OuttakeSubsystem outtake = new OuttakeSubsystem();
 
-    public final ArmSubsystem arm = new ArmSubsystem();
+    // public final ArmSubsystem arm = new ArmSubsystem();
 
     public RobotContainer() {
         autoChooser = AutoBuilder.buildAutoChooser("bagel");
@@ -83,7 +83,7 @@ public class RobotContainer {
         // joystick.povUp().onTrue(new RunCommand(() -> arm.setToMaxPos()));
         // joystick.povDown().onTrue(new RunCommand(() -> arm.resetPos()));
         drivetrain.registerTelemetry(logger::telemeterize);
-        SmartDashboard.putData(arm);
+        // SmartDashboard.putData(arm);
     }
 
     public Command getAutonomousCommand() {
