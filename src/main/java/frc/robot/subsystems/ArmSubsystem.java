@@ -19,9 +19,11 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.config.BodyConstants;
+import frc.robot.generated.TunerConstants;
 
 public class ArmSubsystem extends SubsystemBase {
   private TalonFX m_ArmMotor;
@@ -34,7 +36,10 @@ public class ArmSubsystem extends SubsystemBase {
   /** Creates a new Arm. */
   public ArmSubsystem() {
     m_ArmMotor = new TalonFX(30);
-    m_Encoder = new CANcoder(31);
+    // m_Encoder = new CANcoder(31);
+    m_ArmMotor.clearStickyFaults();
+    m_Encoder.clearStickyFaults();
+    m_Encoder.setPosition(0);
     
     // Creating new control modes
     m_positionOut = new MotionMagicVoltage(0.0).withSlot(0);
@@ -84,11 +89,11 @@ public class ArmSubsystem extends SubsystemBase {
   ramp.VoltageClosedLoopRampPeriod = 0.05;
 
   // Set current limits
-  // var current = newConfig.CurrentLimits;
-  // current.StatorCurrentLimit = BodyConstants.kArmLimits.statorLimit();
-  // current.StatorCurrentLimitEnable = true;
-  // current.SupplyCurrentLimit = BodyConstants.kArmLimits.supplyLimit();
-  // current.SupplyCurrentLimitEnable = true;
+  var current = newConfig.CurrentLimits;
+  current.StatorCurrentLimit = BodyConstants.kArmLimits.statorLimit();
+  current.StatorCurrentLimitEnable = true;
+  current.SupplyCurrentLimit = BodyConstants.kArmLimits.supplyLimit();
+  current.SupplyCurrentLimitEnable = true;
 
   // Configure PID in Slot 0
   Slot0Configs slot0 = newConfig.Slot0;
@@ -107,6 +112,15 @@ public class ArmSubsystem extends SubsystemBase {
   motionMagic.MotionMagicJerk = 6000.0;
   motorConfig.apply(newConfig);
   }
+
+  public void setToMaxPos() {
+    m_ArmMotor.setControl(m_positionOut.withPosition(0.16));
+  }
+
+  public void resetPos() {
+    m_ArmMotor.setControl(m_positionOut.withPosition(0));
+  }
+
 
   @Override
   public void periodic() {

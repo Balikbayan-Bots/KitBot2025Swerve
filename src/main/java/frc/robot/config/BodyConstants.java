@@ -6,6 +6,7 @@ package frc.robot.config;
 
 /** Add your docs here. */
 public class BodyConstants {
+    // Limits(Current, Current, )
     public static final Limits kArmLimits = new Limits(80.0, 45.0, 0, 0);
     public static final double kArmPulleyRatio = 18.0/54.0;
     public record Limits(double statorLimit, double supplyLimit, double forwardLimit, double reverseLimit) {};
