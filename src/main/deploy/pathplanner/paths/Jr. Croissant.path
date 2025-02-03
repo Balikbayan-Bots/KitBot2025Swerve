@@ -1,0 +1,129 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 8.0,
+        "y": 4.0
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.834743589743589,
+        "y": 5.428589743589743
+      },
+      "isLocked": false,
+      "linkedName": "DS"
+    },
+    {
+      "anchor": {
+        "x": 5.206303689406018,
+        "y": 5.18741442692407
+      },
+      "prevControl": {
+        "x": 5.647884615386051,
+        "y": 5.149935897433043
+      },
+      "nextControl": {
+        "x": 4.772440641928363,
+        "y": 5.224237912865791
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.051474358974358,
+        "y": 5.4698717948717945
+      },
+      "prevControl": {
+        "x": 6.366219222960668,
+        "y": 5.767808810529919
+      },
+      "nextControl": {
+        "x": 7.5262179487179495,
+        "y": 5.263461538461538
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.0,
+        "y": 4.0
+      },
+      "prevControl": {
+        "x": 7.914855769230769,
+        "y": 4.410240384615385
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": -121.5602330411761
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "run outtake",
+      "waypointRelativePos": 0.5581395348837203,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "race",
+              "data": {
+                "commands": [
+                  {
+                    "type": "wait",
+                    "data": {
+                      "waitTime": 1.0
+                    }
+                  },
+                  {
+                    "type": "named",
+                    "data": {
+                      "name": "runOuttake"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "stopOuttake"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 1.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -178.32365765576677
+  },
+  "reversed": false,
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -179.169684513742
+  },
+  "useDefaultConstraints": false
+}
