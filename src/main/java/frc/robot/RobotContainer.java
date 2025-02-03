@@ -18,11 +18,11 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-
+import frc.commands.OuttakeCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.OuttakeSubsystem;
-import frc.robot.subsystems.ArmSubsystem;
+
 
 public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -44,7 +44,7 @@ public class RobotContainer {
 
     public final OuttakeSubsystem outtake = new OuttakeSubsystem();
 
-    public final ArmSubsystem arm = new ArmSubsystem();
+    // public final ArmSubsystem arm = new ArmSubsystem();
 
     public RobotContainer() {
         autoChooser = AutoBuilder.buildAutoChooser("bagel");
@@ -79,11 +79,11 @@ public class RobotContainer {
 
         // reset the field-centric heading on left bumper press
         joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
-        joystick.rightBumper().whileTrue(new RunCommand(() -> outtake.set(.3))).whileFalse(new RunCommand(() -> outtake.set(0)));
-        joystick.povUp().whileTrue(new RunCommand(() -> arm.setSpeed(0.25))).onFalse(new RunCommand(() -> arm.stop()));
-      joystick.povDown().whileTrue(new RunCommand(() -> arm.setSpeed(-0.25))).onFalse(new RunCommand(() -> arm.stop()));
+        joystick.rightBumper()
+            .whileTrue(OuttakeCommands.OuttakeOut(outtake)).whileFalse(OuttakeCommands.OuttakeStop(outtake));
       drivetrain.registerTelemetry(logger::telemeterize);
-        SmartDashboard.putData(arm);
+      
+        drivetrain.registerTelemetry(logger::telemeterize);
     }
 
     public Command getAutonomousCommand() {
