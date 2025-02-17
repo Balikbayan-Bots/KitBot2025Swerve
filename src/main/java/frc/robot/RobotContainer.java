@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.commands.OuttakeCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.OuttakeSubsystem;
 
 
@@ -35,6 +36,10 @@ public class RobotContainer {
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
 
+    private final SwerveRequest.RobotCentric limelightDrive = new SwerveRequest.RobotCentric()
+        .withDeadband(MaxSpeed *0.01).withRotationalDeadband(MaxAngularRate *0.01)
+        .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
     private final CommandXboxController joystick = new CommandXboxController(0);
@@ -43,6 +48,8 @@ public class RobotContainer {
     public final SendableChooser <Command> autoChooser;
 
     public final OuttakeSubsystem outtake = new OuttakeSubsystem();
+
+    public final LimelightSubsystem limelight = new LimelightSubsystem();
 
     // public final ArmSubsystem arm = new ArmSubsystem();
 
@@ -65,9 +72,13 @@ public class RobotContainer {
             )
         );
 
-        joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        joystick.b().whileTrue(drivetrain.applyRequest(() ->
-            point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
+        // joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
+        // joystick.b().whileTrue(drivetrain.applyRequest(() ->
+        //     point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
+        // ));
+
+        joystick.b().whileTrue(drivetrain.applyRequest(() -> 
+            limelightDrive.withVelocityY(limelight.alignTx()).withVelocityX(-limelight.alignTa())
         ));
 
         // Run SysId routines when holding back/start and X/Y.
