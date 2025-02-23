@@ -26,8 +26,11 @@ public class LimelightSubsystem extends SubsystemBase{
     }
 
     public double alignTa() {
-        double error = 5.0D - a;
-        return error*a_kP;
+        if(a != 0D) {
+            double error = 5.0D - a;
+            return error*a_kP;
+        }
+        return 0.0D;
     }
 
     @Override
@@ -35,8 +38,9 @@ public class LimelightSubsystem extends SubsystemBase{
         x = limelight.getEntry("tx").getDouble(0);
         a = limelight.getEntry("ta").getDouble(0);
         SmartDashboard.putNumber("Limelight Tx Output", alignTx());
+        SmartDashboard.putNumber("Limelight Tx", x);
         SmartDashboard.putNumber("Limelight Ta Output", alignTa());
-
+        SmartDashboard.putNumber("Limelight Ta", a);
     }
     
 }
